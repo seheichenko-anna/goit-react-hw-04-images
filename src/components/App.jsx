@@ -19,9 +19,9 @@ export const App = () => {
 
   useEffect(() => {
     const fetchImages = async () => {
-      setIsLoading(true);
       try {
         if (searchQuery) {
+          setIsLoading(true);
           const newImages = await fetchImagesWithQuery(searchQuery, page);
           setImages(prevImages => [...prevImages, ...newImages]);
         }
