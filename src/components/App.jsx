@@ -18,26 +18,24 @@ export const App = () => {
   const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
-    if (searchQuery) {
-      fetchImages();
-    }
-  }, [searchQuery]);
-
-  const fetchImages = async () => {
-    setIsLoading(true);
-    try {
-      const newImages = await fetchImagesWithQuery(searchQuery, page);
-      setImages(prevImages => [...prevImages, ...newImages]);
-      setPage(prevPage => prevPage + 1);
-    } catch (error) {
-      console.error('Error fetching images:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    const fetchImages = async () => {
+      setIsLoading(true);
+      try {
+        if (searchQuery) {
+          const newImages = await fetchImagesWithQuery(searchQuery, page);
+          setImages(prevImages => [...prevImages, ...newImages]);
+        }
+      } catch (error) {
+        console.error('Error fetching images:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchImages();
+  }, [searchQuery, page]);
 
   const handleLoadMoreImages = () => {
-    fetchImages();
+    setPage(prev => prev + 1);
   };
 
   const handleSetQuery = newSearchQuery => {
